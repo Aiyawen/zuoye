@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>活着 · 名著讲解</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #1a1612;
+  --bg-light: #2a2420;
+  --text: #e8e0d4;
+  --text-dim: #a09080;
+  --accent: #c4956a;
+  --accent-dark: #8b6543;
+  --card: #221e1a;
+  --border: #3a3228;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #1a1612 0%, #2a2018 50%, #1a1612 100%);
+  z-index: 0;
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(196,149,106,0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+  max-width: 900px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(180deg, #e8e0d4 0%, #c4956a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero .subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  margin-bottom: 3rem;
+}
+
+.hero .quote {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--accent);
+  font-style: italic;
+  line-height: 2;
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.section-desc {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-bottom: 3rem;
+  letter-spacing: 0.1em;
+}
+
+/* ===== FINAL VIDEO ===== */
+.final-video-section {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%);
+}
+
+.video-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+}
+
+.video-wrapper video {
+  width: 100%;
+  display: block;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--accent-dark), var(--accent), var(--accent-dark), transparent);
+  transform: translateX(-50%);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  align-items: center;
+}
+
+.stage:nth-child(even) .stage-content {
+  grid-column: 3;
+}
+
+.stage:nth-child(even) .stage-image {
+  grid-column: 1;
+  text-align: right;
+}
+
+.stage:nth-child(odd) .stage-content {
+  grid-column: 1;
+  text-align: right;
+}
+
+.stage:nth-child(odd) .stage-image {
+  grid-column: 3;
+}
+
+.stage-marker {
+  grid-column: 2;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.stage-content {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stage-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border-color: var(--accent-dark);
+}
+
+.stage-age {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: rgba(196,149,106,0.12);
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.stage-text {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.stage-image {
+  position: relative;
+}
+
+.stage-image img {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.stage-image img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 40px rgba(196,149,106,0.2);
+}
+
+.stage-image video {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.toggle-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent);
+  cursor: pointer;
+  border: 1px solid var(--accent-dark);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  background: transparent;
+  transition: all 0.3s;
+}
+
+.toggle-btn:hover {
+  background: rgba(196,149,106,0.12);
+}
+
+/* ===== WORKFLOW ===== */
+.workflow {
+  background: var(--bg-light);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  border: 1px solid var(--border);
+}
+
+.workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.step:hover {
+  border-color: var(--accent-dark);
+  transform: translateY(-3px);
+}
+
+.step-num {
+  width: 40px; height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: var(--accent-dark);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 auto 1rem;
+}
+
+.step h4 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.step p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+footer p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+footer .quote-end {
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.modal:target { display: flex; }
+
+.modal img {
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: 8px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 2rem; right: 2rem;
+  color: var(--text);
+  font-size: 2rem;
+  text-decoration: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .stage {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .stage:nth-child(even) .stage-content,
+  .stage:nth-child(odd) .stage-content,
+  .stage:nth-child(even) .stage-image,
+  .stage:nth-child(odd) .stage-image {
+    grid-column: 1;
+    text-align: center;
+  }
+  .timeline::before { left: 20px; }
+  .stage-marker { grid-column: 1; justify-self: start; margin-left: 12px; }
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>活 着</h1>
+    <p class="subtitle">余 华 · 名著讲解</p>
+    <div class="quote">
+      "人是为了活着本身而活着，<br>
+      而不是为了活着之外的<br>
+      任何事物而活着。"
+    </div>
+  </div>
+  <div class="scroll-hint">向下滚动 ↓</div>
+</div>
+
+<!-- FINAL VIDEO -->
+<section class="final-video-section fade-in">
+  <h2 class="section-title">完整视频</h2>
+  <p class="section-desc">福贵一生 · 八段人生</p>
+  <div class="video-wrapper">
+    <video controls preload="metadata" poster="images/01_富家少爷.jpg">
+      <source src="活着.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="fade-in">
+  <h2 class="section-title">生平经历</h2>
+  <p class="section-desc">从纨绔少年到暮年老农 · 八个人生节点</p>
+
+  <div class="timeline">
+
+    <!-- Stage 1 -->
+    <div class="stage fade-in">
+      <div class="stage-content">
+        <span class="stage-age">20岁</span>
+        <p class="stage-text">出身地主家庭的富家少爷福贵，整日沉迷赌博，过着挥霍无度的纨绔生活。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-image">
+        <a href="#img1"><img src="images/01_富家少爷.jpg" alt="富家少爷"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/01_富家少爷.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage fade-in">
+      <div class="stage-image">
+        <a href="#img2"><img src="images/02_家道中落.jpg" alt="家道中落"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/02_家道中落.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-content">
+        <span class="stage-age">25岁</span>
+        <p class="stage-text">福贵赌输全部家产，徐家百亩田产尽数抵债，父亲悲愤离世，家道一夜中落。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage fade-in">
+      <div class="stage-content">
+        <span class="stage-age">28岁</span>
+        <p class="stage-text">福贵被国民党军队抓去当壮丁，在炮火连天的战场上目睹死亡，受尽战争之苦。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-image">
+        <a href="#img3"><img src="images/03_战场壮丁.jpg" alt="战场壮丁"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/03_战场壮丁.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage fade-in">
+      <div class="stage-image">
+        <a href="#img4"><img src="images/04_归家团聚.jpg" alt="归家团聚"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/04_归家团聚.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-content">
+        <span class="stage-age">30岁</span>
+        <p class="stage-text">解放军解放后福贵终于回到家乡，与妻子家珍、女儿凤霞、儿子有庆团聚，重归田园生活。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage fade-in">
+      <div class="stage-content">
+        <span class="stage-age">40岁</span>
+        <p class="stage-text">大跃进和人民公社时期，全村吃大锅饭，粮食短缺，福贵一家在饥饿中艰难度日。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-image">
+        <a href="#img5"><img src="images/05_大跃进饥荒.jpg" alt="大跃进饥荒"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/05_大跃进饥荒.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage fade-in">
+      <div class="stage-image">
+        <a href="#img6"><img src="images/06_丧子之痛.jpg" alt="丧子之痛"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/06_丧子之痛.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-content">
+        <span class="stage-age">45岁</span>
+        <p class="stage-text">儿子有庆为给县长夫人献血，被无良医生抽血过多而死，福贵经历丧子之痛。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+    </div>
+
+    <!-- Stage 7 -->
+    <div class="stage fade-in">
+      <div class="stage-content">
+        <span class="stage-age">50岁</span>
+        <p class="stage-text">女儿凤霞产后大出血不幸去世，女婿二喜也在工地上意外身亡，福贵接连承受打击。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-image">
+        <a href="#img7"><img src="images/07_接连丧亲.jpg" alt="接连丧亲"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/07_接连丧亲.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Stage 8 -->
+    <div class="stage fade-in">
+      <div class="stage-image">
+        <a href="#img8"><img src="images/08_老牛相伴.jpg" alt="老牛相伴"></a>
+        <video controls preload="none" style="display:none">
+          <source src="活着画面图片/08_老牛相伴.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="stage-marker"></div>
+      <div class="stage-content">
+        <span class="stage-age">70岁</span>
+        <p class="stage-text">垂垂老矣的福贵买了一头老牛相依为命，在田地里平静耕作，参透了活着的真正意义。</p>
+        <button class="toggle-btn" onclick="toggleVideo(this)">观看片段</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="fade-in">
+  <h2 class="section-title">制作流程</h2>
+  <p class="section-desc">AI 全流程自动生成</p>
+  <div class="workflow">
+    <div class="workflow-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>剧本创作</h4>
+        <p>撰写8段人物生平经历字幕，选取福贵一生8个关键节点</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>画面描述</h4>
+        <p>为每段字幕撰写50字+的详细生图提示词，真实近代纪录片风格</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>图片生成</h4>
+        <p>AI生成8张配图，9:16竖屏，1K分辨率</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>视频提示词</h4>
+        <p>撰写8段动态描述，包含镜头运动和环境动态</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h4>视频生成</h4>
+        <p>以图片为首帧，生成8段5秒视频，720p竖屏</p>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <h4>TTS配音</h4>
+        <p>edge-tts生成中文男声配音，每段字幕对应一段音频</p>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <h4>字幕烧录</h4>
+        <p>OpenCV拼接8段视频，PIL绘制白色字幕黑色描边</p>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <h4>音频混合</h4>
+        <p>ffmpeg混合视频与配音，输出最终完整视频</p>
+      </div>
+      <div class="step">
+        <div class="step-num">9</div>
+        <h4>剪映草稿</h4>
+        <p>生成剪映可编辑草稿，含视频轨和字幕轨</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE MODALS -->
+<div class="modal" id="img1"><a class="modal-close" href="#">&times;</a><img src="images/01_富家少爷.jpg"></div>
+<div class="modal" id="img2"><a class="modal-close" href="#">&times;</a><img src="images/02_家道中落.jpg"></div>
+<div class="modal" id="img3"><a class="modal-close" href="#">&times;</a><img src="images/03_战场壮丁.jpg"></div>
+<div class="modal" id="img4"><a class="modal-close" href="#">&times;</a><img src="images/04_归家团聚.jpg"></div>
+<div class="modal" id="img5"><a class="modal-close" href="#">&times;</a><img src="images/05_大跃进饥荒.jpg"></div>
+<div class="modal" id="img6"><a class="modal-close" href="#">&times;</a><img src="images/06_丧子之痛.jpg"></div>
+<div class="modal" id="img7"><a class="modal-close" href="#">&times;</a><img src="images/07_接连丧亲.jpg"></div>
+<div class="modal" id="img8"><a class="modal-close" href="#">&times;</a><img src="images/08_老牛相伴.jpg"></div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="quote-end">"人是为了活着本身而活着，而不是为了活着之外的任何事物而活着。"</p>
+  <p>余华《活着》名著讲解 · AI 全流程生成 · 2026</p>
+</footer>
+
+<script>
+// Toggle segment video
+function toggleVideo(btn) {
+  var container = btn.closest('.stage');
+  var imgDiv = container.querySelector('.stage-image');
+  var img = imgDiv.querySelector('img');
+  var video = imgDiv.querySelector('video');
+  if (!video) return;
+  if (video.style.display === 'none') {
+    img.style.display = 'none';
+    video.style.display = 'block';
+    video.play();
+    btn.textContent = '返回图片';
+  } else {
+    video.pause();
+    video.style.display = 'none';
+    img.style.display = 'inline-block';
+    btn.textContent = '观看片段';
+  }
+}
+
+// Scroll fade-in
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in').forEach(function(el) {
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
